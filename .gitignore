@@ -1,0 +1,20 @@
+# Environment config (contains API keys)
+utils/env.js
+
+# Server data files
+data/*.json
+
+# Diagnostic / cleanup pages
+test-firebase.html
+reset.html
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+
+# Local tooling
+.venv/
+.playwright-mcp/

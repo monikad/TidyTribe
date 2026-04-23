@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="description" content="Turn household chaos into teamwork. Assign chores, earn stars, redeem fun rewards.">
+    <meta name="theme-color" content="#FAFBFC">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
+    <meta name="apple-mobile-web-app-title" content="TidyTribe">
+    <title>TidyTribe</title>
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" sizes="32x32" href="assets/icons/icon-192x192.png">
+    
+    <!-- Apple Touch Icons -->
+    <link rel="apple-touch-icon" sizes="152x152" href="assets/icons/icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="assets/icons/icon-192x192.png">
+    <link rel="apple-touch-icon" sizes="167x167" href="assets/icons/icon-192x192.png">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="styles.css?v=7.0.1">
+</head>
+<body>
+    <div id="app">
+        <!-- iOS-style top navigation bar -->
+        <header id="nav-bar">
+            <div style="display:flex;align-items:center;gap:8px">
+                <h1 id="nav-title">Home</h1>
+                <span id="sync-status" class="sync-dot synced" title="All devices in sync"></span>
+            </div>
+            <button id="nav-action" class="nav-action-btn hidden"></button>
+        </header>
+
+        <!-- Scrollable main content area -->
+        <main id="main-content"></main>
+
+        <!-- iOS-style bottom tab bar -->
+        <nav id="tab-bar">
+            <button class="tab-item active" data-view="dashboard">
+                <span class="tab-icon">🏠</span>
+                <span class="tab-label">Home</span>
+            </button>
+            <button class="tab-item" data-view="chores">
+                <span class="tab-icon">✅</span>
+                <span class="tab-label">Chores</span>
+            </button>
+            <button class="tab-item" data-view="members">
+                <span class="tab-icon">👨‍👩‍👧‍👦</span>
+                <span class="tab-label">Family</span>
+            </button>
+            <button class="tab-item" data-view="rewards">
+                <span class="tab-icon">🎁</span>
+                <span class="tab-label">Rewards</span>
+            </button>
+        </nav>
+    </div>
+    
+    <!-- Modal Container -->
+    <div id="modal-root"></div>
+    
+    <script type="module" src="app.js?v=7.0.1"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/service-worker.js')
+                    .then(r => {
+                        console.log('[PWA] SW registered:', r.scope);
+                        // Force the new service worker to activate immediately
+                        if (r.waiting) {
+                            r.waiting.postMessage({ type: 'SKIP_WAITING' });
+                        }
+                        r.addEventListener('updatefound', () => {
+                            const newWorker = r.installing;
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    newWorker.postMessage({ type: 'SKIP_WAITING' });
+                                }
+                            });
+                        });
+                    })
+                    .catch(e => console.error('[PWA] SW failed:', e));
+                // Reload once the new SW takes over
+                navigator.serviceWorker.addEventListener('controllerchange', () => {
+                    console.log('[PWA] New service worker activated, reloading…');
+                    window.location.reload();
+                });
+            });
+        }
+    </script>
+</body>
+</html>

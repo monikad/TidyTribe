@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html><head><title>Reset Firestore</title></head>
+<body>
+<h2>Clearing Firestore households…</h2>
+<pre id="log"></pre>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-app.js';
+import { getFirestore, collection, getDocs, deleteDoc, doc } from 'https://www.gstatic.com/firebasejs/10.14.0/firebase-firestore.js';
+
+const app = initializeApp({
+    apiKey: "AIzaSyBguEpVgfGTtj86jNcWDT1LWf02RqXJiXc",
+    authDomain: "family-chores-2aeff.firebaseapp.com",
+    projectId: "family-chores-2aeff",
+    storageBucket: "family-chores-2aeff.firebasestorage.app",
+    messagingSenderId: "806133197889",
+    appId: "1:806133197889:web:70d3aabb827544dc412ac0"
+});
+const db = getFirestore(app);
+const log = document.getElementById('log');
+
+try {
+    const snap = await getDocs(collection(db, 'households'));
+    if (snap.empty) {
+        log.textContent = '✅ No households found — already clean!';
+    } else {
+        for (const d of snap.docs) {
+            await deleteDoc(doc(db, 'households', d.id));
+            log.textContent += `🗑️ Deleted household: ${d.id}\n`;
+        }
+        log.textContent += '\n✅ All Firestore data cleared!';
+    }
+} catch (e) {
+    log.textContent = '❌ Error: ' + e.message;
+}
+log.textContent += '\n\nYou can close this page now.';
+</script>
+</body>
+</html>

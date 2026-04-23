@@ -1,302 +1,184 @@
-# Family Chore Manager 🏠⭐
+<div align="center">
 
-A modern, neon-themed **Progressive Web App (PWA)** for managing family chores, tracking points, and rewarding contributions. Install it on your phone like a native app or run it in your browser!
+# TidyTribe
 
-![Version](https://img.shields.io/badge/version-1.0.0-purple)
-![License](https://img.shields.io/badge/license-MIT-blue)
-![PWA](https://img.shields.io/badge/PWA-enabled-green)
+### Turn household chaos into teamwork.
 
----
+TidyTribe is a mobile-first chore app for families. Sign in, create or join a household, assign chores, earn stars, and redeem rewards across devices with Firebase sync.
 
-## Table of Contents
+[Screenshots](#screenshots) • [Features](#features) • [Getting Started](#getting-started) • [Project Structure](#project-structure)
 
-1. [Features](#features)
-2. [Quick Start](#quick-start)
-3. [Mobile App Installation](#mobile-app-installation)
-4. [Project Structure](#project-structure)
-4. [Technology Stack](#technology-stack)
-5. [User Guide](#user-guide)
-6. [Developer Guide](#developer-guide)
-7. [Architecture](#architecture)
-8. [Data Model](#data-model)
-9. [Debugging](#debugging)
-10. [API Integration](#api-integration)
-11. [Troubleshooting](#troubleshooting)
-12. [Original Prompt](#original-prompt)
+![PWA](https://img.shields.io/badge/PWA-ready-79c98c)
+![Firebase](https://img.shields.io/badge/Firebase-Auth%20%2B%20Firestore-f4b942)
+![Mobile First](https://img.shields.io/badge/Design-mobile--first-8ab6e5)
 
----
+</div>
+
+<p align="center">
+  <img src="assets/screenshots/dashboard.png" alt="TidyTribe dashboard" width="290" />
+</p>
+
+## Why TidyTribe?
+
+Most family chore apps feel like spreadsheets. TidyTribe is designed more like a lightweight household companion:
+
+- A simple sign-in flow for each family member
+- Shared household data synced in real time with Firestore
+- A personal "My Day" dashboard with streaks, reminders, and weekly progress
+- Invite-code based family setup so new members can join quickly
+- Rewards that turn completed chores into something motivating
+- PWA support so it works like a home-screen app on mobile
+
+## Screenshots
+
+| Dashboard | Family |
+| --- | --- |
+| ![Dashboard](assets/screenshots/dashboard.png) | ![Family](assets/screenshots/family.png) |
+
+| Chores | Rewards |
+| --- | --- |
+| ![Chores](assets/screenshots/chores.png) | ![Rewards](assets/screenshots/rewards.png) |
 
 ## Features
 
-✨ **Core Functionality**
-- 👨‍👩‍👧‍👦 Manage family members with avatars and point tracking
-- 📋 Create, assign, and track household chores
-- ⭐ Points/stars system for completed tasks
-- 🎁 **Progressive Web App - Install on your phone!**
+### Household setup
 
-🎨 **Design**
-- Dark mode with vibrant neon purple and blue accents
-- Smooth animations and visual feedback
-- Clean, organized card-based layout
-- High contrast for excellent readability
-- **Mobile-optimized with touch-friendly controls**
+- Sign in with Google or Apple
+- Create a household or join one with a 6-character invite code
+- Keep a per-device family profile so each device knows who is using it
 
-🔧 **Technical**
-- 100% client-side (no backend required)
-- **Works offline with Service Worker**
-- localStorage persistence
-- Extensive console logging for debugging
-- Modular ES6 JavaScript architecture
-- **Installable as mobile app (iOS & Android)**
-- Extensive console logging for debugging
-- Modular ES6 JavaScript architecture
-- Zero build dependencies (optional dev server)
+### Daily chore flow
 
----
-For Desktop Use
+- Add chores with assignees, due dates, and star values
+- View chores in a list or calendar layout
+- Mark chores complete with instant visual feedback
+- Track overdue work and upcoming tasks from the dashboard
 
-#### Option 1: Direct File Access (Simplest)
+### Family motivation
 
-1. **Download/Clone the project**
-   ```bash
-   git clone <your-repo-url>
-   cd Chores-manager
-   ```
+- See streaks, weekly completion stats, and a family leaderboard
+- Add rewards with required star totals
+- Let parents manage rewards while kids can redeem what they can afford
 
-2. **Open in browser**
-   - Simply open `index.html` in Google Chrome
-   - Or right-click `index.html` → "Open With" → Google Chrome
+### Mobile app behavior
 
-3. **Start using!**
-   - The app loads with mock data automatically
-   - All data is saved to localStorage
+- Installable Progressive Web App
+- Service worker support for offline fallback
+- Notification prompts for due-date reminders
+- Designed around a mobile tab-bar interface instead of a desktop admin layout
 
-#### Option 2: Local Web Server (Recommended for PWA features)
+## How It Works
 
-Using Python (built into macOS):
+1. Sign in with Google or Apple.
+2. Create a new household or join one with an invite code.
+3. Add family members, chores, and rewards.
+4. Complete chores to earn stars.
+5. Redeem rewards when enough stars are available.
+6. Stay in sync across devices through Firebase Auth and Firestore.
+
+## Getting Started
+
+### 1. Clone the project
+
 ```bash
-cd Chores-manager
-python3 -m http.server 8000
-```
-Then open: http://localhost:8000
-
-Using Node.js (if installed):
-```bash
-npx serve .
+git clone https://github.com/monikad/TidyTribe.git
+cd TidyTribe
 ```
 
-Using VS Code Live Server:
-- Install "Live Server" extension
-- Right-click `index.html` → "Open with Live Server"
+### 2. Add your Firebase config
 
----
+This app expects a local config file at `utils/env.js`.
 
-## Mobile App Installation
-
-### 📱 Install on iPhone/iPad (iOS) (PWA enabled)
-├── manifest.json           # PWA manifest (app metadata)
-├── service-worker.js       # Service Worker (offline support)
-├── styles.css              # Neon dark theme styles (mobile optimized)
-├── app.js                  # Main application & router
-├── store.js                # State management & localStorage
-├── components/             # UI components
-│   ├── header.js          # App header
-│   ├── dashboard.js       # Dashboard view
-│   ├── members.js         # Family members view
-│   ├── chores.js          # Chores view
-│   ├── rewards.js         # Rewards view
-│   └── modals.js          # All modal dialogs (CRUD forms)
-├── utils/                  # Utility modules
-│   └── logger.js          # Console logging system
-├── assets/                 # Static assets
-│   ├── avatars/           # Avatar images
-│   │   ├── alice.png
-│   │   ├── bob.png
-│   │   ├── charlie.png
-│   │   └── dana.png
-│   └── icons/             # PWA app icons (all sizes)
-│       ├── icon-72x72.png
-│       ├── icon-96x96.png
-│       ├── icon-128x128.png
-│       ├── icon-144x144.png
-│       ├── icon-152x152.png
-│       ├── icon-192x192.png
-│       ├── icon-384x384.png
-│       └── icon-512x512n Android
-
-1. **Open in Chrome**
-   - Navigate to the app URL
-| **Service Worker** | Offline support and caching |
-| **Web App Manifest** | PWA metadata and installation |
-
-**No external dependencies or frameworks required!**
-
-### PWA Features
-
-- ✅ **Installable** - Add to home screen on iOS/Android
-- ✅ **Offline-first** - Works without internet connection
-- ✅ **Fast loading** - Cached resources load instantly
-- ✅ **App-like** - Fullscreen mode, no browser chrome
-- ✅ **Responsive** - Adapts to any screen size
-- ✅ **Safe areas** - Respects iPhone notch and gestures
-2. **Look for the install prompt**
-   - A banner appears: "Install this app?"
-   - Or tap the menu (⋮) → "Install app" or "Add to Home screen"
-
-3. **Tap "Install"**
-
-4. **Done!** The app appears in your app drawer
-   - Opens in fullscreen mode
-   - Works offline
-   - Behaves like a native app
-
-### 🌐 Deploy for Mobile Access
-
-To access from your phone, you need to either:
-
-**Option A: Deploy to a free host**
-- [Vercel](https://vercel.com) - Free hosting with HTTPS
-- [Netlify](https://netlify.com) - Drag & drop deployment
-- [GitHub Pages](https://pages.github.com) - Free GitHub hosting
-
-**Option B: Use local network**
 ```bash
-# On your Mac, start server
-python3 -m http.server 8000
-
-# Find your Mac's IP address
-ifconfig | grep "inet " | grep -v 127.0.0.1
-
-# On your phone (same WiFi), visit:
-http://YOUR-MAC-IP:8000
+cp utils/env.example.js utils/env.js
 ```
 
-### 📴 Offline Mode
+Then fill in `utils/env.js` with your Firebase project values:
 
-Once installed, the app works completely offline:
-- All features available without internet
-- Data stored locally on your device
-- Updates only when you open the app online
-Using VS Code Live Server:
-- Install "Live Server" extension
-- Right-click `index.html` → "Open with Live Server"
+- `FIREBASE_API_KEY`
+- `FIREBASE_AUTH_DOMAIN`
+- `FIREBASE_PROJECT_ID`
+- `FIREBASE_STORAGE_BUCKET`
+- `FIREBASE_MESSAGING_SENDER_ID`
+- `FIREBASE_APP_ID`
 
----
+You also need Firebase Authentication and Firestore enabled in your Firebase project.
+
+### 3. Run the local server
+
+Using the bundled Python server:
+
+```bash
+python3 server.py
+```
+
+Or choose a custom port:
+
+```bash
+python3 server.py 3000
+```
+
+Open the app at:
+
+- `http://localhost:8000`
+- or `http://localhost:3000`
+
+The local server prints your LAN IP too, so you can open the app on your phone while testing on the same Wi-Fi network.
+
+## Firebase Notes
+
+TidyTribe is a static frontend, but it is not a no-backend demo. The core product flow depends on Firebase:
+
+- Firebase Auth for Google and Apple sign-in
+- Firestore for household data and live multi-device sync
+- Local storage only for device-level profile and cached state
+
+If Firebase is not configured, the app will not move through the real sign-in and household flow.
 
 ## Project Structure
 
+```text
+TidyTribe/
+├── index.html
+├── styles.css
+├── app.js
+├── store.js
+├── server.py
+├── manifest.json
+├── service-worker.js
+├── assets/
+│   ├── avatars/
+│   ├── icons/
+│   └── screenshots/
+├── components/
+│   ├── onboarding.js
+│   ├── dashboard.js
+│   ├── chores.js
+│   ├── calendar.js
+│   ├── members.js
+│   ├── rewards.js
+│   ├── modals.js
+│   └── newModals.js
+└── utils/
+    ├── auth.js
+    ├── firebase-config.js
+    ├── notifications.js
+    ├── safety.js
+    ├── streaks.js
+    └── sync.js
 ```
-Chores-manager/
-├── index.html              # Main HTML entry point
-├── styles.css              # Neon dark theme styles
-├── app.js                  # Main application & router
-├── store.js                # State management & localStorage
-├── components/             # UI components
-│   ├── header.js          # App header
-│   ├── dashboard.js       # Dashboard view
-│   ├── members.js         # Family members view
-│   ├── chores.js          # Chores view
-│   ├── rewards.js         # Rewards view
-│   └── modals.js          # All modal dialogs (CRUD forms)
-├── utils/                  # Utility modules
-│   └── logger.js          # Console logging system
-├── assets/                 # Static assets
-│   └── avatars/           # Avatar images
-│       ├── alice.png
-│       ├── bob.png
-│       ├── charlie.png
-│       └── dana.png
-└── README.md              # This file
-```
 
----
+## Stack
 
-## Technology Stack
+- HTML, CSS, and modular vanilla JavaScript
+- Firebase Authentication
+- Firebase Firestore
+- Service Worker and Web App Manifest for PWA support
+- Python `http.server`-based local dev server
 
-| Technology | Purpose |
-|------------|---------|
-| **HTML5** | Structure and semantic markup |
-| **CSS3** | Neon dark theme with animations |
-| **JavaScript (ES6+)** | Application logic and interactivity |
-| **localStorage** | Client-side data persistence |
-| **ES Modules** | Modular code organization |
+## Status
 
-**No external dependencies or frameworks required!**
-
----
-
-## User Guide
-
-### Getting Started
-
-1. **First Launch**: The app loads with sample data (Alice, Bob, Charlie, Dana)
-2. **Dashboard**: View statistics, leaderboard, and recent activity
-3. **Navigation**: Use the top menu to switch between sections
-
-### Managing Family Members
-
-**Add a Member:**
-1. Navigate to "Family Members"
-2. Click "+ Add Member"
-3. Enter name and optional avatar URL
-4. Click "Add Member"
-
-**Edit/Delete a Member:**
-1. Click the ✏️ edit button on any member card
-2. Update details or click "Delete"
-3. Note: Deleting a member unassigns their chores
-
-### Managing Chores
-
-**Add a Chore:**
-1. Navigate to "Chores"
-2. Click "+ Add Chore"
-3. Fill in:
-   - Chore name
-   - Assign to (optional)
-   - Due date
-   - Points/stars value
-4. Click "Add Chore"
-
-**Complete a Chore:**
-1. Find the chore in the list
-2. Check the "Mark as complete" checkbox
-3. Points are automatically awarded
-4. Chore moves to "Completed" section
-
-**Edit/Delete a Chore:**
-1. Click the ✏️ edit button
-2. Update details or delete
-
-### Managing Rewards
-
-**Add a Reward:**
-1. Navigate to "Rewards"
-2. Click "+ Add Reward"
-3. Enter name, required points, and description
-4. Click "Add Reward"
-
-**Redeem a Reward:**
-1. Click "🎉 Redeem" on any unlocked reward
-2. Select the family member
-3. Click "Redeem Now"
-4. Points are deducted automatically
-
-### Points System
-
-- Complete chores to earn stars ⭐
-- Each chore has a point value (1-10+)
-- Points accumulate per family member
-- Redeem points for rewards
-- Track progress on the leaderboard
-
----
-
-## Developer Guide
-
-### Code Organization
-
-The app follows a modular architecture:
+This repository is set up as a real product prototype with live auth, household sync, and mobile-first UI flows. The screenshots in this README are captured from the current app in this repo.
 
 **app.js** - Main entry point
 - Initializes the app
